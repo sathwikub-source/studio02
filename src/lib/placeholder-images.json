@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-1",
+      "description": "Students collaborating in a modern library setting.",
+      "imageUrl": "https://picsum.photos/seed/hero1/600/400",
+      "imageHint": "students library"
+    },
+    {
+      "id": "course-1",
+      "description": "Physics equations on a blackboard.",
+      "imageUrl": "https://picsum.photos/seed/course1/600/400",
+      "imageHint": "physics blackboard"
+    },
+    {
+      "id": "course-2",
+      "description": "A classic painting representing art history.",
+      "imageUrl": "https://picsum.photos/seed/course2/600/400",
+      "imageHint": "art history"
+    },
+    {
+      "id": "course-3",
+      "description": "Computer code on a screen.",
+      "imageUrl": "https://picsum.photos/seed/course3/600/400",
+      "imageHint": "programming code"
+    },
+    {
+      "id": "course-4",
+      "description": "A person writing on a notepad, representing literature.",
+      "imageUrl": "https://picsum.photos/seed/course4/600/400",
+      "imageHint": "literature writing"
+    },
+    {
+      "id": "course-5",
+      "description": "A collection of historical artifacts.",
+      "imageUrl": "https://picsum.photos/seed/course5/600/400",
+      "imageHint": "ancient history"
+    },
+    {
+      "id": "course-6",
+      "description": "A calculator and graphs, representing mathematics.",
+      "imageUrl": "https://picsum.photos/seed/course6/600/400",
+      "imageHint": "mathematics graph"
+    }
+  ]
 }
