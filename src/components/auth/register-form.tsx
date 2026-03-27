@@ -30,13 +30,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import type { User } from "@/lib/types";
+import { users as initialUsers } from "@/lib/data";
 
 const formSchema = z.object({
-  fullName: z.string().min(2, { message: "Full name must be at least 2 characters." }),
+  name: z.string().min(2, { message: "Full name must be at least 2 characters." }),
   email: z.string().email({ message: "Invalid email address." }),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
   role: z.enum(["student", "lecturer", "admin"]),
 });
+
+const USERS_STORAGE_KEY = 'study-spot-users';
 
 export function RegisterForm() {
   const router = useRouter();
@@ -45,7 +49,7 @@ export function RegisterForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: "",
+      name: "",
       email: "",
       password: "",
       role: "student",
@@ -53,14 +57,45 @@ export function RegisterForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Mock registration logic
-    console.log(values);
-    toast({
-      title: "Registration Successful",
-      description: "Your account has been created. Please log in.",
-    });
-    // In a real app, you'd create the user and then redirect
-    router.push("/login");
+    const newUser: User = {
+      id: `user-${Date.now()}`,
+      name: values.name,
+      email: values.email,
+      role: values.role,
+      avatarUrl: `https://i.pravatar.cc/150?u=user-${Date.now()}`,
+    };
+
+    try {
+        const existingUsersRaw = localStorage.getItem(USERS_STORAGE_KEY);
+        // Use initialUsers as a base if localStorage is empty
+        const existingUsers = existingUsersRaw ? JSON.parse(existingUsersRaw) : initialUsers;
+        
+        // Check if email already exists
+        if (existingUsers.some((user: User) => user.email === newUser.email)) {
+            toast({
+                title: "Registration Failed",
+                description: "An account with this email already exists.",
+                variant: "destructive",
+            });
+            return;
+        }
+        
+        const updatedUsers = [...existingUsers, newUser];
+        localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
+
+        toast({
+          title: "Registration Successful",
+          description: "Your account has been created. Please log in.",
+        });
+        router.push("/login");
+    } catch (error) {
+        console.error("Failed to save user to localStorage", error);
+        toast({
+            title: "Registration Failed",
+            description: "Could not save your registration. Please try again.",
+            variant: "destructive"
+        });
+    }
   }
 
   return (
@@ -74,7 +109,7 @@ export function RegisterForm() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
-              name="fullName"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Full Name</FormLabel>
