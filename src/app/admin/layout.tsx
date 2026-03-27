@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Users, GraduationCap, BarChart3, LayoutDashboard } from "lucide-react";
+import { Users, GraduationCap, BarChart3, LayoutDashboard, Settings } from "lucide-react";
 
 import {
   SidebarProvider,
@@ -18,9 +18,10 @@ import { getCurrentUser } from "@/lib/data";
 
 const navItems = [
   { href: "/admin/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
-  { href: "#", icon: <Users />, label: "Manage Users" },
+  { href: "/admin/dashboard", icon: <Users />, label: "User Management" },
   { href: "/admin/courses", icon: <GraduationCap />, label: "Manage Courses" },
   { href: "#", icon: <BarChart3 />, label: "Platform Activity" },
+  { href: "/admin/settings", icon: <Settings />, label: "Settings" },
 ];
 
 export default function AdminLayout({

@@ -20,6 +20,8 @@ interface UserNavProps {
 }
 
 export function UserNav({ user }: UserNavProps) {
+  const settingsHref = user.role === 'admin' ? '/admin/settings' : '#';
+  
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -45,9 +47,11 @@ export function UserNav({ user }: UserNavProps) {
             <UserIcon className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
+          <DropdownMenuItem asChild>
+            <Link href={settingsHref}>
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Settings</span>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
