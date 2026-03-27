@@ -1,0 +1,104 @@
+'use client';
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+const coursesData = [
+![CDATA['use client';
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
+const coursesData = [
+  {
+    name: "BCA",
+    years: [
+      { name: "1st Year", semesters: ["1st Semester", "2nd Semester"] },
+      { name: "2nd Year", semesters: ["3rd Semester", "4th Semester"] },
+      { name: "3rd Year", semesters: ["5th Semester", "6th Semester"] },
+    ],
+  },
+  {
+    name: "BBA",
+    years: [
+      { name: "1st Year", semesters: ["1st Semester", "2nd Semester"] },
+      { name: "2nd Year", semesters: ["3rd Semester", "4th Semester"] },
+      { name: "3rd Year", semesters: ["5th Semester", "6th Semester"] },
+    ],
+  },
+  {
+    name: "BA",
+    years: [
+      { name: "1st Year", semesters: ["1st Semester", "2nd Semester"] },
+      { name: "2nd Year", semesters: ["3rd Semester", "4th Semester"] },
+      { name: "3rd Year", semesters: ["5th Semester", "6th Semester"] },
+    ],
+  },
+  {
+    name: "BSc",
+    years: [
+      { name: "1st Year", semesters: ["1st Semester", "2nd Semester"] },
+      { name: "2nd Year", semesters: ["3rd Semester", "4th Semester"] },
+      { name: "3rd Year", semesters: ["5th Semester", "6th Semester"] },
+    ],
+  },
+  {
+    name: "BCOM",
+    years: [
+      { name: "1st Year", semesters: ["1st Semester", "2nd Semester"] },
+      { name: "2nd Year", semesters: ["3rd Semester", "4th Semester"] },
+      { name: "3rd Year", semesters: ["5th Semester", "6th Semester"] },
+    ],
+  },
+];
+
+export function CourseCatalog() {
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold tracking-tight">Courses</h2>
+      <p className="text-muted-foreground">
+        Browse available courses, years, and semesters.
+      </p>
+      <Card>
+        <CardHeader>
+          <CardTitle>Course Catalog</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Accordion type="multiple" className="w-full">
+            {coursesData.map((course) => (
+              <AccordionItem value={course.name} key={course.name}>
+                <AccordionTrigger className="text-lg font-semibold">{course.name}</AccordionTrigger>
+                <AccordionContent>
+                  <Accordion type="multiple" className="w-full px-4">
+                    {course.years.map((year) => (
+                      <AccordionItem value={`${course.name}-${year.name}`} key={year.name}>
+                        <AccordionTrigger>{year.name}</AccordionTrigger>
+                        <AccordionContent>
+                          <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
+                            {year.semesters.map((semester) => (
+                              <li key={semester} className="cursor-pointer hover:text-foreground">{semester}</li>
+                            ))}
+                          </ul>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

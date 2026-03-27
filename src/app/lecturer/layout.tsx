@@ -18,7 +18,7 @@ import { getCurrentUser } from "@/lib/data";
 
 const navItems = [
   { href: "/lecturer/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
-  { href: "#", icon: <GraduationCap />, label: "Courses" },
+  { href: "/lecturer/courses", icon: <GraduationCap />, label: "Courses" },
   { href: "#", icon: <FileText />, label: "Assignments" },
   { href: "#", icon: <BookOpen />, label: "Submissions" },
   { href: "#", icon: <Megaphone />, label: "Announcements" },
