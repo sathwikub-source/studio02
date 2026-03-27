@@ -34,3 +34,14 @@ export interface Submission {
   submittedAt: Date;
   grade?: string;
 }
+
+export interface CourseMaterial {
+  id: string;
+  course: string;
+  year: string;
+  semester: string;
+  title: string;
+  type: 'pdf' | 'ppt' | 'video';
+  url: string;
+  uploadedAt: Date;
+}

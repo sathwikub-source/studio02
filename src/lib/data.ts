@@ -1,4 +1,4 @@
-import type { User, Course, UserRole } from "./types";
+import type { User, Course, UserRole, CourseMaterial } from "./types";
 import { PlaceHolderImages } from "./placeholder-images";
 
 const getPlaceholder = (id: string) => {
@@ -51,6 +51,12 @@ export const courses: Course[] = [
         enrolledStudents: 15,
         coverImage: getPlaceholder("course-4"),
     }
+];
+
+export const materials: CourseMaterial[] = [
+    { id: 'mat-1', course: 'BCA', year: '1st Year', semester: '1st Semester', title: 'Introduction to C Programming.pdf', type: 'pdf', url: '#', uploadedAt: new Date('2024-05-10') },
+    { id: 'mat-2', course: 'BCA', year: '1st Year', semester: '1st Semester', title: 'Digital Logic Fundamentals.ppt', type: 'ppt', url: '#', uploadedAt: new Date('2024-05-12') },
+    { id: 'mat-3', course: 'BBA', year: '2nd Year', semester: '3rd Semester', title: 'Marketing Management Introduction.video', type: 'video', url: '#', uploadedAt: new Date('2024-05-15') },
 ];
 
 // Mock function to get current user. In a real app, this would come from an auth context.
