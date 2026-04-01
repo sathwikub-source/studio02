@@ -1,5 +1,8 @@
+'use client';
 import Link from "next/link";
 import { Users, GraduationCap, BarChart3, LayoutDashboard, Settings } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   SidebarProvider,
@@ -14,7 +17,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Logo, LogoWithText } from "@/components/logo";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
-import { getCurrentUser } from "@/lib/data";
+import type { User } from "@/lib/types";
 
 const navItems = [
   { href: "/admin/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
@@ -24,12 +27,49 @@ const navItems = [
   { href: "/admin/settings", icon: <Settings />, label: "Settings" },
 ];
 
+const CURRENT_USER_STORAGE_KEY = 'study-spot-current-user';
+
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = getCurrentUser("admin");
+  const router = useRouter();
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    try {
+      const storedUserRaw = localStorage.getItem(CURRENT_USER_STORAGE_KEY);
+      if (storedUserRaw) {
+        const storedUser = JSON.parse(storedUserRaw);
+        if (storedUser.role === 'admin') {
+          setUser(storedUser);
+        } else {
+          // Wrong role, log them out
+          localStorage.removeItem(CURRENT_USER_STORAGE_KEY);
+          router.push('/login');
+        }
+      } else {
+        router.push('/login');
+      }
+    } catch (e) {
+      // Something went wrong, log them out
+      localStorage.removeItem(CURRENT_USER_STORAGE_KEY);
+      router.push('/login');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [router]);
+
+  if (isLoading || !user) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
 
   return (
     <SidebarProvider>

@@ -9,7 +9,7 @@ const getPlaceholder = (id: string) => {
     return { url: placeholder.imageUrl, hint: placeholder.imageHint };
 }
 
-export const users: User[] = [
+export const initialUsers: User[] = [
     { id: "user-1", name: "Alice Johnson", email: "alice@example.com", role: "student", avatarUrl: "https://i.pravatar.cc/150?u=user-1" },
     { id: "user-2", name: "Bob Williams", email: "bob@example.com", role: "student", avatarUrl: "https://i.pravatar.cc/150?u=user-2" },
     { id: "user-3", name: "Dr. Carol Davis", email: "carol@example.com", role: "lecturer", avatarUrl: "https://i.pravatar.cc/150?u=user-3" },
@@ -58,13 +58,3 @@ export const materials: CourseMaterial[] = [
     { id: 'mat-2', course: 'BCA', year: '1st Year', semester: '1st Semester', title: 'Digital Logic Fundamentals.ppt', type: 'ppt', url: '#', uploadedAt: new Date('2024-05-12') },
     { id: 'mat-3', course: 'BBA', year: '2nd Year', semester: '3rd Semester', title: 'Marketing Management Introduction.video', type: 'video', url: '#', uploadedAt: new Date('2024-05-15') },
 ];
-
-// Mock function to get current user. In a real app, this would come from an auth context.
-export const getCurrentUser = (role: UserRole): User => {
-    const user = users.find(u => u.role === role);
-    if (!user) {
-        // Fallback to the first user if no user with the specified role is found
-        return users[0];
-    }
-    return user;
-};

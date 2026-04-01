@@ -24,6 +24,8 @@ import {
 } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/hooks/use-toast";
+import { initialUsers } from "@/lib/data";
+import type { User } from "@/lib/types";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -32,6 +34,9 @@ const formSchema = z.object({
     required_error: "You need to select a role.",
   }),
 });
+
+const USERS_STORAGE_KEY = 'study-spot-users';
+const CURRENT_USER_STORAGE_KEY = 'study-spot-current-user';
 
 export function LoginForm() {
   const router = useRouter();
@@ -48,14 +53,37 @@ export function LoginForm() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Mock login logic
-    console.log(values);
-    toast({
-      title: "Login Successful",
-      description: `Welcome back! Redirecting to your ${values.role} dashboard.`,
-    });
+    try {
+      const storedUsersRaw = localStorage.getItem(USERS_STORAGE_KEY);
+      const users: User[] = storedUsersRaw ? JSON.parse(storedUsersRaw) : initialUsers;
 
-    // In a real app, you'd handle auth and redirect based on success
-    router.push(`/${values.role}/dashboard`);
+      const foundUser = users.find(user => user.email === values.email && user.role === values.role);
+
+      if (foundUser) {
+        localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(foundUser));
+        
+        toast({
+          title: "Login Successful",
+          description: `Welcome back, ${foundUser.name}! Redirecting to your ${values.role} dashboard.`,
+        });
+
+        // In a real app, you'd handle auth and redirect based on success
+        router.push(`/${values.role}/dashboard`);
+      } else {
+        toast({
+          title: "Login Failed",
+          description: "Invalid email or role. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error("Login error", error);
+      toast({
+        title: "Login Failed",
+        description: "An error occurred during login. Please try again.",
+        variant: "destructive",
+      });
+    }
   }
 
   return (

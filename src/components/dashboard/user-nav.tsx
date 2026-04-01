@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { LogOut, Settings, User as UserIcon } from "lucide-react";
 import type { User } from "@/lib/types";
 import {
@@ -19,8 +20,21 @@ interface UserNavProps {
   user: User;
 }
 
+const CURRENT_USER_STORAGE_KEY = 'study-spot-current-user';
+
 export function UserNav({ user }: UserNavProps) {
+  const router = useRouter();
   const settingsHref = user.role === 'admin' ? '/admin/settings' : '#';
+
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem(CURRENT_USER_STORAGE_KEY);
+      router.push('/');
+    } catch (error) {
+      console.error("Failed to logout", error);
+      router.push('/');
+    }
+  }
   
   return (
     <DropdownMenu>
@@ -55,11 +69,9 @@ export function UserNav({ user }: UserNavProps) {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link href="/">
+        <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>Log out</span>
-          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

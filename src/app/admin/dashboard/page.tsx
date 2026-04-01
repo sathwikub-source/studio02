@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { BarChart3, GraduationCap, MoreHorizontal, Pencil, PlusCircle, Trash2, Users as UsersIcon } from "lucide-react";
 import { StatsCard } from "@/components/dashboard/stats-card";
-import { users as initialUsers, courses, getCurrentUser } from "@/lib/data";
+import { initialUsers, courses } from "@/lib/data";
 import type { User } from "@/lib/types";
 import {
   Card,
@@ -45,6 +45,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const USERS_STORAGE_KEY = 'study-spot-users';
+const CURRENT_USER_STORAGE_KEY = 'study-spot-current-user';
 
 export default function AdminDashboardPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -53,6 +54,7 @@ export default function AdminDashboardPage() {
   const [userToDelete, setUserToDelete] = useState<User | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const { toast } = useToast();
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   
   // This can only run on the client
   useEffect(() => {
@@ -65,14 +67,18 @@ export default function AdminDashboardPage() {
             setUsers(initialUsers);
             localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(initialUsers));
         }
+        
+        const currentUserRaw = localStorage.getItem(CURRENT_USER_STORAGE_KEY);
+        if (currentUserRaw) {
+            setCurrentUser(JSON.parse(currentUserRaw));
+        }
+
     } catch (error) {
         console.error("Failed to load users from localStorage", error);
         setUsers(initialUsers); // Fallback to initial data
     }
     setIsMounted(true);
   }, []);
-
-  const currentUser = getCurrentUser("admin");
 
   const studentUsers = users.filter(u => u.role === 'student');
   const lecturerUsers = users.filter(u => u.role === 'lecturer');
@@ -125,7 +131,7 @@ export default function AdminDashboardPage() {
   };
 
   const handleDeleteUser = () => {
-    if (!userToDelete) return;
+    if (!userToDelete || !currentUser) return;
     
     // Admin cannot delete themselves
     if (userToDelete.id === currentUser.id) {
@@ -153,7 +159,7 @@ export default function AdminDashboardPage() {
     setIsFormOpen(true);
   }
 
-  if (!isMounted) {
+  if (!isMounted || !currentUser) {
     return (
       <div className="space-y-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
