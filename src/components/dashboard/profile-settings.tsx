@@ -16,6 +16,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,6 +26,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import type { User } from '@/lib/types';
 import { Skeleton } from '../ui/skeleton';
+import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
 
 const CURRENT_USER_STORAGE_KEY = 'study-spot-current-user';
 const USERS_STORAGE_KEY = 'study-spot-users';
@@ -88,6 +90,27 @@ export function ProfileSettings() {
     }
   }, [currentUser, profileForm]);
 
+  const handleAvatarChange = () => {
+    if (!currentUser) return;
+    const newAvatarUrl = `https://i.pravatar.cc/150?u=user-${Date.now()}`;
+    const updatedUser = { ...currentUser, avatarUrl: newAvatarUrl };
+    
+    setCurrentUser(updatedUser);
+    localStorage.setItem(CURRENT_USER_STORAGE_KEY, JSON.stringify(updatedUser));
+    
+    const usersRaw = localStorage.getItem(USERS_STORAGE_KEY);
+    const users = usersRaw ? JSON.parse(usersRaw) : [];
+    const updatedUsers = users.map((u: User) => u.id === updatedUser.id ? updatedUser : u);
+    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(updatedUsers));
+
+    toast({
+      title: 'Avatar Updated',
+      description: 'Your profile picture has been changed.',
+    });
+    // This is a hack to force the user nav to re-render with the new avatar
+    window.dispatchEvent(new Event('storage'));
+  };
+
   const handleProfileSubmit = (values: z.infer<typeof profileFormSchema>) => {
     if (!currentUser) return;
     setIsProfileSaving(true);
@@ -108,6 +131,8 @@ export function ProfileSettings() {
         description: 'Your profile information has been saved.',
       });
       setIsProfileSaving(false);
+      // This is a hack to force the user nav to re-render with the new name/email
+      window.dispatchEvent(new Event('storage'));
     }, 1000);
   };
 
@@ -134,6 +159,13 @@ export function ProfileSettings() {
                     <Skeleton className="h-4 w-64" />
                 </CardHeader>
                 <CardContent className="space-y-4">
+                    <div className="flex items-center gap-4">
+                        <Skeleton className="h-20 w-20 rounded-full" />
+                        <div className="space-y-2">
+                           <Skeleton className="h-10 w-32" />
+                           <Skeleton className="h-4 w-48" />
+                        </div>
+                    </div>
                     <Skeleton className="h-10" />
                     <Skeleton className="h-10" />
                     <Skeleton className="h-10 w-32" />
@@ -160,9 +192,20 @@ export function ProfileSettings() {
       <Card>
         <CardHeader>
           <CardTitle>Profile Information</CardTitle>
-          <CardDescription>Update your personal details.</CardDescription>
+          <CardDescription>Update your personal details and profile picture.</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-6">
+           <div className="flex items-center gap-4">
+              <Avatar className="h-20 w-20">
+                  <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
+                  <AvatarFallback>{currentUser.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <div>
+                  <Button onClick={handleAvatarChange}>Change Photo</Button>
+                  <p className="text-sm text-muted-foreground mt-2">Click to get a new random avatar.</p>
+              </div>
+          </div>
+
           <Form {...profileForm}>
             <form onSubmit={profileForm.handleSubmit(handleProfileSubmit)} className="space-y-4">
               <FormField
@@ -191,6 +234,13 @@ export function ProfileSettings() {
                   </FormItem>
                 )}
               />
+               <FormItem>
+                <FormLabel>Role</FormLabel>
+                <FormControl>
+                    <Input value={currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1)} readOnly disabled />
+                </FormControl>
+                <FormDescription>Your role cannot be changed.</FormDescription>
+              </FormItem>
               <Button type="submit" disabled={isProfileSaving}>
                 {isProfileSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Save Changes
