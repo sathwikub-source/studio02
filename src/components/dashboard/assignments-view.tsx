@@ -10,6 +10,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Button } from '@/components/ui/button';
 import { Download, Upload, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
@@ -67,11 +73,12 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
   };
 
   const handleFileUpload = (file: File) => {
+    // For now, uploaded assignments are not associated with a specific course from the catalog
     const newAssignment: Assignment = {
       id: `assign-${Date.now()}`,
       title: file.name,
-      courseId: `course-${Date.now()}`,
-      courseName: "Uploaded Assignment",
+      courseId: `course-unknown`,
+      courseName: "General Assignments", 
       dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Due in 7 days
       fileUrl: '#', // In a real app, this would be a URL to the uploaded file
     };
@@ -93,6 +100,19 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
   
   const canManage = role === 'admin' || role === 'lecturer';
 
+  // Group assignments by course
+  const assignmentsByCourse = assignments.reduce(
+    (acc, assignment) => {
+        const courseName = assignment.courseName || "Uncategorized";
+        if (!acc[courseName]) {
+            acc[courseName] = [];
+        }
+        acc[courseName].push(assignment);
+        return acc;
+    },
+    {} as { [courseName: string]: Assignment[] }
+  );
+
   return (
     <div className="space-y-6">
        <div className="flex items-center justify-between">
@@ -112,7 +132,7 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle>Assignment List</CardTitle>
+          <CardTitle>Assignments by Course</CardTitle>
           <CardDescription>
             {canManage 
               ? "Upload, download, or delete assignments." 
@@ -121,36 +141,44 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {assignments.length > 0 ? (
-            <div className="space-y-4">
-              {assignments.map((assignment) => (
-                <div key={assignment.id} className="flex flex-wrap items-center justify-between gap-4 rounded-md border p-4">
-                  <div className="flex items-center gap-4">
-                    <div>
-                      <p className="font-semibold">{assignment.title}</p>
-                      <p className="text-sm text-muted-foreground">{assignment.courseName}</p>
-                      <p className="text-sm text-muted-foreground">
-                        Due on {format(assignment.dueDate, 'PPP')}
-                      </p>
+          {Object.keys(assignmentsByCourse).length > 0 ? (
+            <Accordion type="multiple" className="w-full">
+              {Object.entries(assignmentsByCourse).map(([courseName, courseAssignments]) => (
+                <AccordionItem value={courseName} key={courseName}>
+                  <AccordionTrigger className="text-lg font-semibold">{courseName}</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-4 pt-2 pl-4">
+                      {courseAssignments.map((assignment) => (
+                        <div key={assignment.id} className="flex flex-wrap items-center justify-between gap-4 rounded-md border p-4">
+                          <div className="flex items-center gap-4">
+                            <div>
+                              <p className="font-semibold">{assignment.title}</p>
+                              <p className="text-sm text-muted-foreground">
+                                Due on {format(assignment.dueDate, 'PPP')}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex flex-shrink-0 gap-2">
+                            <Button variant="outline" size="sm" asChild>
+                              <a href={assignment.fileUrl} download={assignment.title}>
+                                <Download className="mr-2 h-4 w-4" />
+                                Download
+                              </a>
+                            </Button>
+                            {canManage && (
+                              <Button variant="destructive" size="sm" onClick={() => setAssignmentToDelete(assignment)}>
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Delete
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  </div>
-                  <div className="flex flex-shrink-0 gap-2">
-                    <Button variant="outline" size="sm" asChild>
-                      <a href={assignment.fileUrl} download={assignment.title}>
-                        <Download className="mr-2 h-4 w-4" />
-                        Download
-                      </a>
-                    </Button>
-                    {canManage && (
-                      <Button variant="destructive" size="sm" onClick={() => setAssignmentToDelete(assignment)}>
-                        <Trash2 className="mr-2 h-4 w-4" />
-                        Delete
-                      </Button>
-                    )}
-                  </div>
-                </div>
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </div>
+            </Accordion>
           ) : (
              <div className="py-10 text-center">
               <p className="text-muted-foreground">No assignments have been uploaded yet.</p>
