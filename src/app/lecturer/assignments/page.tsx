@@ -2,5 +2,5 @@
 import { AssignmentsView } from '@/components/dashboard/assignments-view';
 
 export default function AssignmentsPage() {
-  return <AssignmentsView role="student" />;
+  return <AssignmentsView role="lecturer" />;
 }

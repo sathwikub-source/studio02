@@ -22,7 +22,7 @@ import type { User } from "@/lib/types";
 const navItems = [
   { href: "/lecturer/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
   { href: "/lecturer/courses", icon: <GraduationCap />, label: "Courses" },
-  { href: "#", icon: <FileText />, label: "Assignments" },
+  { href: "/lecturer/assignments", icon: <FileText />, label: "Assignments" },
   { href: "#", icon: <BookOpen />, label: "Submissions" },
   { href: "#", icon: <Megaphone />, label: "Announcements" },
 ];
