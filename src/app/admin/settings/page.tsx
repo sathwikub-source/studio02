@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { ProfileSettings } from '@/components/dashboard/profile-settings';
 
 export default function AdminSettingsPage() {
   const [adminLimit, setAdminLimit] = useState(5);
@@ -24,12 +25,15 @@ export default function AdminSettingsPage() {
       <div>
         <h2 className="text-2xl font-bold tracking-tight">Admin Settings</h2>
         <p className="text-muted-foreground">
-          Manage platform-wide administrator settings.
+          Manage your profile and platform-wide administrator settings.
         </p>
       </div>
+
+      <ProfileSettings />
+
       <Card>
         <CardHeader>
-          <CardTitle>Registration Settings</CardTitle>
+          <CardTitle>Platform Settings</CardTitle>
           <CardDescription>Control administrator registration on the platform.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -46,7 +50,7 @@ export default function AdminSettingsPage() {
               Set the maximum number of users that can have the admin role.
             </p>
           </div>
-          <Button onClick={handleSave}>Save Settings</Button>
+          <Button onClick={handleSave}>Save Platform Settings</Button>
         </CardContent>
       </Card>
     </div>

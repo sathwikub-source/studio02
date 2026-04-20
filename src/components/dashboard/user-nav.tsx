@@ -24,7 +24,7 @@ const CURRENT_USER_STORAGE_KEY = 'study-spot-current-user';
 
 export function UserNav({ user }: UserNavProps) {
   const router = useRouter();
-  const settingsHref = user.role === 'admin' ? '/admin/settings' : '#';
+  const settingsHref = `/${user.role}/settings`;
 
   const handleLogout = () => {
     try {
