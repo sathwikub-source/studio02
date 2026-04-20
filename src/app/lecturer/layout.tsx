@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { GraduationCap, FileText, Megaphone, LayoutDashboard, Settings } from "lucide-react";
@@ -23,7 +24,7 @@ const navItems = [
   { href: "/lecturer/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
   { href: "/lecturer/courses", icon: <GraduationCap />, label: "Courses" },
   { href: "/lecturer/assignments", icon: <FileText />, label: "Assignments" },
-  { href: "#", icon: <Megaphone />, label: "Announcements" },
+  { href: "/lecturer/announcements", icon: <Megaphone />, label: "Announcements" },
   { href: "/lecturer/settings", icon: <Settings />, label: "Settings" },
 ];
 
