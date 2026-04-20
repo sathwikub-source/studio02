@@ -24,30 +24,30 @@ const getAuthorDetails = (authorName: string, users: User[]): { role: string, av
 };
 
 export default function AnnouncementsPage() {
-    const [notifications, setNotifications] = useState<Notification[]>([]);
-    const [isMounted, setIsMounted] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
 
-    useEffect(() => {
-        try {
-            const storedNotificationsRaw = localStorage.getItem(NOTIFICATIONS_STORAGE_KEY);
-            if (storedNotificationsRaw) {
-                const storedNotifications = JSON.parse(storedNotificationsRaw).map((n: any) => ({
-                ...n,
-                date: new Date(n.date),
-                }));
-                setNotifications(storedNotifications);
-            } else {
-                setNotifications(initialNotifications);
-                localStorage.setItem(NOTIFICATIONS_STORAGE_KEY, JSON.stringify(initialNotifications));
-            }
-        } catch (error) {
-            console.error("Failed to load notifications from localStorage", error);
-            setNotifications(initialNotifications);
-        }
-        setIsMounted(true);
-    }, []);
+  useEffect(() => {
+    try {
+      const storedNotificationsRaw = localStorage.getItem(NOTIFICATIONS_STORAGE_KEY);
+      if (storedNotificationsRaw) {
+        const storedNotifications = JSON.parse(storedNotificationsRaw).map((n: any) => ({
+          ...n,
+          date: new Date(n.date),
+        }));
+        setNotifications(storedNotifications);
+      } else {
+        setNotifications(initialNotifications);
+        localStorage.setItem(NOTIFICATIONS_STORAGE_KEY, JSON.stringify(initialNotifications));
+      }
+    } catch (error) {
+      console.error("Failed to load notifications from localStorage", error);
+      setNotifications(initialNotifications);
+    }
+    setIsMounted(true);
+  }, []);
 
-    if (!isMounted) {
+  if (!isMounted) {
     return (
          <div className="space-y-6">
             <div>
@@ -92,9 +92,8 @@ export default function AnnouncementsPage() {
       <div className="space-y-4">
         {notifications.sort((a, b) => b.date.getTime() - a.date.getTime()).map((notification) => {
             const authorDetails = getAuthorDetails(notification.author, initialUsers);
-            
             return (
-                <Card key={notification.id}>
+                 <Card key={notification.id}>
                     <CardHeader className="flex flex-row items-start gap-4 space-y-0">
                         <Avatar>
                             <AvatarImage src={authorDetails.avatarUrl} alt={notification.author} />
@@ -119,7 +118,7 @@ export default function AnnouncementsPage() {
                         </p>
                     </CardFooter>
                 </Card>
-            );
+            )
         })}
       </div>
     </div>
