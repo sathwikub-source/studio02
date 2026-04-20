@@ -27,9 +27,9 @@ interface SemesterMaterialsProps {
 }
 
 const fileIcons = {
-  pdf: <FileText className="h-6 w-6 text-red-500" />,
-  ppt: <Presentation className="h-6 w-6 text-orange-500" />,
-  video: <Video className="h-6 w-6 text-blue-500" />,
+  pdf: <FileText className="h-6 w-6 text-destructive" />,
+  ppt: <Presentation className="h-6 w-6 text-primary" />,
+  video: <Video className="h-6 w-6 text-accent" />,
 };
 
 // Helper to capitalize words
