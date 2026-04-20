@@ -23,7 +23,7 @@ const navItems = [
   { href: "/admin/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
   { href: "/admin/dashboard", icon: <Users />, label: "User Management" },
   { href: "/admin/courses", icon: <GraduationCap />, label: "Manage Courses" },
-  { href: "#", icon: <BarChart3 />, label: "Platform Activity" },
+  { href: "/admin/activity", icon: <BarChart3 />, label: "Platform Activity" },
   { href: "/admin/settings", icon: <Settings />, label: "Settings" },
 ];
 
