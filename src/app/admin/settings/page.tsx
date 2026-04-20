@@ -23,9 +23,9 @@ export default function AdminSettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight">Admin Settings</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Settings</h2>
         <p className="text-muted-foreground">
-          Manage your profile and platform-wide administrator settings.
+          Manage your profile, password, and platform-wide administrator settings.
         </p>
       </div>
 
