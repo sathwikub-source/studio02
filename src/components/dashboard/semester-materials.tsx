@@ -26,11 +26,21 @@ interface SemesterMaterialsProps {
   semester: string;
 }
 
-const fileIcons = {
+const fileIcons: { [key: string]: React.ReactNode } = {
   pdf: <FileText className="h-6 w-6 text-destructive" />,
   ppt: <Presentation className="h-6 w-6 text-primary" />,
   video: <Video className="h-6 w-6 text-accent" />,
+  unknown: <FileText className="h-6 w-6 text-muted-foreground" />,
 };
+
+const getFileType = (fileName: string): 'pdf' | 'ppt' | 'video' => {
+    const extension = fileName.split('.').pop()?.toLowerCase();
+    if (extension === 'pdf') return 'pdf';
+    if (extension === 'ppt' || extension === 'pptx') return 'ppt';
+    if (['mp4', 'mov', 'avi', 'webm'].includes(extension || '')) return 'video';
+    return 'pdf'; // default
+};
+
 
 // Helper to capitalize words
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -44,6 +54,10 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
   const [materials, setMaterials] = useState<CourseMaterial[]>([]);
   const [materialToDelete, setMaterialToDelete] = useState<CourseMaterial | null>(null);
   const { toast } = useToast();
+
+  const formattedCourse = course.toUpperCase();
+  const formattedYear = capitalizeWords(year);
+  const formattedSemester = capitalizeWords(semester);
 
   useEffect(() => {
     try {
@@ -73,6 +87,20 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
     }
   };
   
+  const handleFileUpload = (file: File) => {
+    const newMaterial: CourseMaterial = {
+        id: `mat-${Date.now()}`,
+        title: file.name,
+        type: getFileType(file.name),
+        url: '#', // In a real app, this would be a URL to the uploaded file
+        uploadedAt: new Date(),
+        course: formattedCourse,
+        year: formattedYear,
+        semester: formattedSemester,
+    };
+    updateMaterialsInStateAndStorage([newMaterial, ...materials]);
+  };
+
   const handleDeleteMaterial = () => {
     if (!materialToDelete) return;
 
@@ -86,10 +114,6 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
     setMaterialToDelete(null);
   };
 
-
-  const formattedCourse = course.toUpperCase();
-  const formattedYear = capitalizeWords(year);
-  const formattedSemester = capitalizeWords(semester);
 
   const filteredMaterials = materials.filter(
     (m) =>
@@ -127,7 +151,7 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
               {filteredMaterials.map((material) => (
                 <div key={material.id} className="flex flex-wrap items-center justify-between gap-4 rounded-md border p-4">
                   <div className="flex items-center gap-4">
-                    {fileIcons[material.type]}
+                    {fileIcons[material.type] || fileIcons.unknown}
                     <div>
                       <p className="font-semibold">{material.title}</p>
                       <p className="text-sm text-muted-foreground">
@@ -136,12 +160,12 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
                     </div>
                   </div>
                   <div className="flex flex-shrink-0 gap-2">
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" onClick={() => window.open(material.url, '_blank')}>
                       <Eye className="mr-2 h-4 w-4" />
                       View
                     </Button>
                     <Button variant="outline" size="sm" asChild>
-                       <a href={material.url} download>
+                       <a href={material.url} download={material.title}>
                          <Download className="mr-2 h-4 w-4" />
                          Offline
                        </a>
@@ -164,7 +188,7 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
         </CardContent>
       </Card>
       {(role === 'admin' || role === 'lecturer') && (
-         <FileUploadDialog open={isUploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+         <FileUploadDialog open={isUploadDialogOpen} onOpenChange={setUploadDialogOpen} onFileUpload={handleFileUpload}/>
       )}
        <AlertDialog open={!!materialToDelete} onOpenChange={(open) => !open && setMaterialToDelete(null)}>
         <AlertDialogContent>

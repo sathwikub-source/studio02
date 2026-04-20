@@ -4,23 +4,50 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import React from "react";
+import React, { useState } from "react";
 
-export function FileUploadDialog({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) {
+interface FileUploadDialogProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onFileUpload: (file: File) => void;
+}
+
+export function FileUploadDialog({ open, onOpenChange, onFileUpload }: FileUploadDialogProps) {
   const { toast } = useToast();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedFile(event.target.files?.[0] || null);
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // In a real app, you would handle file upload logic here.
+    if (!selectedFile) {
+      toast({
+        title: "No file selected",
+        description: "Please select a file to upload.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    onFileUpload(selectedFile);
+    
     toast({
       title: "File Uploaded",
-      description: "The file has been successfully uploaded.",
+      description: `"${selectedFile.name}" has been successfully uploaded.`,
     });
     onOpenChange(false);
+    setSelectedFile(null); // Reset after upload
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={(isOpen) => {
+      onOpenChange(isOpen);
+      if (!isOpen) {
+        setSelectedFile(null); // Reset on close
+      }
+    }}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Upload File</DialogTitle>
@@ -33,7 +60,7 @@ export function FileUploadDialog({ open, onOpenChange }: { open: boolean, onOpen
             <Label htmlFor="file" className="text-right">
               File
             </Label>
-            <Input id="file" type="file" className="col-span-3" required />
+            <Input id="file" type="file" onChange={handleFileChange} className="col-span-3" required />
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
