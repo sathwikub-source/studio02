@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { BarChart3, GraduationCap, MoreHorizontal, Pencil, PlusCircle, Trash2, Users as UsersIcon } from "lucide-react";
+import { GraduationCap, MoreHorizontal, Pencil, PlusCircle, Trash2, Users as UsersIcon } from "lucide-react";
 import { StatsCard } from "@/components/dashboard/stats-card";
 import { initialUsers, courses } from "@/lib/data";
 import type { User } from "@/lib/types";
@@ -162,9 +162,7 @@ export default function AdminDashboardPage() {
   if (!isMounted || !currentUser) {
     return (
       <div className="space-y-6">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Skeleton className="h-28" />
-          <Skeleton className="h-28" />
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
           <Skeleton className="h-28" />
           <Skeleton className="h-28" />
         </div>
@@ -183,7 +181,7 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
         <StatsCard
           title="Total Users"
           value={totalUsers.toString()}
@@ -195,18 +193,6 @@ export default function AdminDashboardPage() {
           value={totalCourses.toString()}
           description="Across all departments"
           icon={<GraduationCap className="h-4 w-4" />}
-        />
-        <StatsCard
-          title="Active Sessions"
-          value="128"
-          description="Users currently online"
-          icon={<BarChart3 className="h-4 w-4" />}
-        />
-         <StatsCard
-          title="Submissions Today"
-          value="72"
-          description="+15% from yesterday"
-          icon={<UsersIcon className="h-4 w-4" />}
         />
       </div>
 
