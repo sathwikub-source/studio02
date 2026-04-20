@@ -72,13 +72,12 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
     }
   };
 
-  const handleFileUpload = (file: File) => {
-    // For now, uploaded assignments are not associated with a specific course from the catalog
+  const handleFileUpload = (details: { file: File; courseName?: string }) => {
     const newAssignment: Assignment = {
       id: `assign-${Date.now()}`,
-      title: file.name,
+      title: details.file.name,
       courseId: `course-unknown`,
-      courseName: "General Assignments", 
+      courseName: details.courseName || "General Assignments", 
       dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Due in 7 days
       fileUrl: '#', // In a real app, this would be a URL to the uploaded file
     };
@@ -188,7 +187,12 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
       </Card>
       
       {canManage && (
-         <FileUploadDialog open={isUploadDialogOpen} onOpenChange={setUploadDialogOpen} onFileUpload={handleFileUpload}/>
+         <FileUploadDialog 
+            open={isUploadDialogOpen} 
+            onOpenChange={setUploadDialogOpen} 
+            onFileUpload={handleFileUpload}
+            context="assignment"
+         />
       )}
 
       <AlertDialog open={!!assignmentToDelete} onOpenChange={(open) => !open && setAssignmentToDelete(null)}>

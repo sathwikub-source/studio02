@@ -87,11 +87,11 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
     }
   };
   
-  const handleFileUpload = (file: File) => {
+  const handleFileUpload = (details: { file: File }) => {
     const newMaterial: CourseMaterial = {
         id: `mat-${Date.now()}`,
-        title: file.name,
-        type: getFileType(file.name),
+        title: details.file.name,
+        type: getFileType(details.file.name),
         url: '#', // In a real app, this would be a URL to the uploaded file
         uploadedAt: new Date(),
         course: formattedCourse,
@@ -188,7 +188,13 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
         </CardContent>
       </Card>
       {(role === 'admin' || role === 'lecturer') && (
-         <FileUploadDialog open={isUploadDialogOpen} onOpenChange={setUploadDialogOpen} onFileUpload={handleFileUpload}/>
+         <FileUploadDialog 
+            open={isUploadDialogOpen} 
+            onOpenChange={setUploadDialogOpen} 
+            onFileUpload={handleFileUpload}
+            context="material"
+            courseInfo={{ course: formattedCourse, year: formattedYear, semester: formattedSemester }}
+        />
       )}
        <AlertDialog open={!!materialToDelete} onOpenChange={(open) => !open && setMaterialToDelete(null)}>
         <AlertDialogContent>
