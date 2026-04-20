@@ -25,6 +25,8 @@ export interface Assignment {
   title: string;
   courseId: string;
   courseName: string;
+  year: string;
+  semester: string;
   dueDate: Date;
   fileUrl: string;
 }

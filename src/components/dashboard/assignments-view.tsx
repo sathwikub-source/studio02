@@ -72,12 +72,14 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
     }
   };
 
-  const handleFileUpload = (details: { file: File; courseName?: string }) => {
+  const handleFileUpload = (details: { file: File; courseName?: string; year?: string; semester?: string }) => {
     const newAssignment: Assignment = {
       id: `assign-${Date.now()}`,
       title: details.file.name,
-      courseId: `course-unknown`,
-      courseName: details.courseName || "General Assignments", 
+      courseId: `course-${details.courseName?.toLowerCase() || 'unknown'}`,
+      courseName: details.courseName || "Uncategorized",
+      year: details.year || "N/A",
+      semester: details.semester || "N/A",
       dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Due in 7 days
       fileUrl: '#', // In a real app, this would be a URL to the uploaded file
     };
@@ -99,17 +101,27 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
   
   const canManage = role === 'admin' || role === 'lecturer';
 
-  // Group assignments by course
+  // Group assignments by course -> year -> semester
   const assignmentsByCourse = assignments.reduce(
     (acc, assignment) => {
-        const courseName = assignment.courseName || "Uncategorized";
-        if (!acc[courseName]) {
-            acc[courseName] = [];
-        }
-        acc[courseName].push(assignment);
-        return acc;
+      const courseName = assignment.courseName || "Uncategorized";
+      const year = assignment.year || "Unspecified Year";
+      const semester = assignment.semester || "Unspecified Semester";
+
+      if (!acc[courseName]) {
+        acc[courseName] = {};
+      }
+      if (!acc[courseName][year]) {
+        acc[courseName][year] = {};
+      }
+      if (!acc[courseName][year][semester]) {
+        acc[courseName][year][semester] = [];
+      }
+      acc[courseName][year][semester].push(assignment);
+
+      return acc;
     },
-    {} as { [courseName: string]: Assignment[] }
+    {} as { [courseName: string]: { [year: string]: { [semester: string]: Assignment[] } } }
   );
 
   return (
@@ -131,7 +143,7 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
 
       <Card>
         <CardHeader>
-          <CardTitle>Assignments by Course</CardTitle>
+          <CardTitle>Assignments Catalog</CardTitle>
           <CardDescription>
             {canManage 
               ? "Upload, download, or delete assignments." 
@@ -142,38 +154,56 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
         <CardContent>
           {Object.keys(assignmentsByCourse).length > 0 ? (
             <Accordion type="multiple" className="w-full">
-              {Object.entries(assignmentsByCourse).map(([courseName, courseAssignments]) => (
+              {Object.entries(assignmentsByCourse).map(([courseName, years]) => (
                 <AccordionItem value={courseName} key={courseName}>
                   <AccordionTrigger className="text-lg font-semibold">{courseName}</AccordionTrigger>
                   <AccordionContent>
-                    <div className="space-y-4 pt-2 pl-4">
-                      {courseAssignments.map((assignment) => (
-                        <div key={assignment.id} className="flex flex-wrap items-center justify-between gap-4 rounded-md border p-4">
-                          <div className="flex items-center gap-4">
-                            <div>
-                              <p className="font-semibold">{assignment.title}</p>
-                              <p className="text-sm text-muted-foreground">
-                                Due on {format(assignment.dueDate, 'PPP')}
-                              </p>
-                            </div>
-                          </div>
-                          <div className="flex flex-shrink-0 gap-2">
-                            <Button variant="outline" size="sm" asChild>
-                              <a href={assignment.fileUrl} download={assignment.title}>
-                                <Download className="mr-2 h-4 w-4" />
-                                Download
-                              </a>
-                            </Button>
-                            {canManage && (
-                              <Button variant="destructive" size="sm" onClick={() => setAssignmentToDelete(assignment)}>
-                                <Trash2 className="mr-2 h-4 w-4" />
-                                Delete
-                              </Button>
-                            )}
-                          </div>
-                        </div>
+                    <Accordion type="multiple" className="w-full px-4">
+                      {Object.entries(years).map(([year, semesters]) => (
+                        <AccordionItem value={`${courseName}-${year}`} key={year}>
+                          <AccordionTrigger>{year}</AccordionTrigger>
+                          <AccordionContent>
+                            <Accordion type="multiple" className="w-full px-4">
+                              {Object.entries(semesters).map(([semester, semesterAssignments]) => (
+                                <AccordionItem value={`${courseName}-${year}-${semester}`} key={semester}>
+                                  <AccordionTrigger>{semester}</AccordionTrigger>
+                                  <AccordionContent>
+                                    <div className="space-y-4 pt-2 pl-4">
+                                      {semesterAssignments.map((assignment) => (
+                                        <div key={assignment.id} className="flex flex-wrap items-center justify-between gap-4 rounded-md border p-4">
+                                          <div className="flex items-center gap-4">
+                                            <div>
+                                              <p className="font-semibold">{assignment.title}</p>
+                                              <p className="text-sm text-muted-foreground">
+                                                Due on {format(assignment.dueDate, 'PPP')}
+                                              </p>
+                                            </div>
+                                          </div>
+                                          <div className="flex flex-shrink-0 gap-2">
+                                            <Button variant="outline" size="sm" asChild>
+                                              <a href={assignment.fileUrl} download={assignment.title}>
+                                                <Download className="mr-2 h-4 w-4" />
+                                                Download
+                                              </a>
+                                            </Button>
+                                            {canManage && (
+                                              <Button variant="destructive" size="sm" onClick={() => setAssignmentToDelete(assignment)}>
+                                                <Trash2 className="mr-2 h-4 w-4" />
+                                                Delete
+                                              </Button>
+                                            )}
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </AccordionContent>
+                                </AccordionItem>
+                              ))}
+                            </Accordion>
+                          </AccordionContent>
+                        </AccordionItem>
                       ))}
-                    </div>
+                    </Accordion>
                   </AccordionContent>
                 </AccordionItem>
               ))}

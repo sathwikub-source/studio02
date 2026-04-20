@@ -60,9 +60,9 @@ export const materials: CourseMaterial[] = [
 ];
 
 export const assignments: Assignment[] = [
-    { id: 'assign-1', title: 'Physics Problem Set 1', courseId: 'course-1', courseName: 'Introduction to Physics', dueDate: new Date('2024-09-15'), fileUrl: '#' },
-    { id: 'assign-2', title: 'Essay on Modernism', courseId: 'course-2', courseName: 'History of Modern Art', dueDate: new Date('2024-09-20'), fileUrl: '#' },
-    { id: 'assign-3', title: 'Build a React Component Library', courseId: 'course-3', courseName: 'Advanced Web Development', dueDate: new Date('2024-10-01'), fileUrl: '#' },
+    { id: 'assign-1', title: 'C Programming Basics', courseId: 'course-bca', courseName: 'BCA', year: '1st Year', semester: '1st Semester', dueDate: new Date('2024-09-15'), fileUrl: '#' },
+    { id: 'assign-2', title: 'Business Communication Essay', courseId: 'course-bba', courseName: 'BBA', year: '1st Year', semester: '2nd Semester', dueDate: new Date('2024-09-20'), fileUrl: '#' },
+    { id: 'assign-3', title: 'Calculus I Problems', courseId: 'course-bsc', courseName: 'BSc', year: '2nd Year', semester: '3rd Semester', dueDate: new Date('2024-10-01'), fileUrl: '#' },
 ];
 
 export const grades: Grade[] = [
