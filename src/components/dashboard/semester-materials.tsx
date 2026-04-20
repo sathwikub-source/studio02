@@ -1,11 +1,23 @@
 'use client';
-import { useState } from 'react';
-import { materials } from '@/lib/data';
-import type { UserRole } from '@/lib/types';
+import { useState, useEffect } from 'react';
+import { materials as initialMaterials } from '@/lib/data';
+import type { UserRole, CourseMaterial } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Download, Eye, FileText, Upload, Video, Presentation } from 'lucide-react';
+import { Download, Eye, FileText, Upload, Video, Presentation, Trash2 } from 'lucide-react';
 import { FileUploadDialog } from './file-upload-dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useToast } from "@/hooks/use-toast";
+
 
 interface SemesterMaterialsProps {
   role: UserRole;
@@ -24,8 +36,56 @@ const fileIcons = {
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const capitalizeWords = (s: string) => s.split(' ').map(capitalize).join(' ');
 
+const MATERIALS_STORAGE_KEY = 'study-spot-materials';
+
+
 export function SemesterMaterials({ role, course, year, semester }: SemesterMaterialsProps) {
   const [isUploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [materials, setMaterials] = useState<CourseMaterial[]>([]);
+  const [materialToDelete, setMaterialToDelete] = useState<CourseMaterial | null>(null);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    try {
+        const storedMaterialsRaw = localStorage.getItem(MATERIALS_STORAGE_KEY);
+        if (storedMaterialsRaw) {
+            const storedMaterials = JSON.parse(storedMaterialsRaw).map((m: any) => ({
+                ...m,
+                uploadedAt: new Date(m.uploadedAt),
+            }));
+            setMaterials(storedMaterials);
+        } else {
+            setMaterials(initialMaterials);
+            localStorage.setItem(MATERIALS_STORAGE_KEY, JSON.stringify(initialMaterials));
+        }
+    } catch (error) {
+        console.error("Failed to load materials from localStorage", error);
+        setMaterials(initialMaterials);
+    }
+  }, []);
+
+  const updateMaterialsInStateAndStorage = (newMaterials: CourseMaterial[]) => {
+    setMaterials(newMaterials);
+    try {
+      localStorage.setItem(MATERIALS_STORAGE_KEY, JSON.stringify(newMaterials));
+    } catch (error) {
+      console.error("Failed to save materials to localStorage", error);
+    }
+  };
+  
+  const handleDeleteMaterial = () => {
+    if (!materialToDelete) return;
+
+    const newMaterials = materials.filter(m => m.id !== materialToDelete.id);
+    updateMaterialsInStateAndStorage(newMaterials);
+    toast({
+      title: "Material Deleted",
+      description: `"${materialToDelete.title}" has been removed.`,
+      variant: "destructive",
+    });
+    setMaterialToDelete(null);
+  };
+
 
   const formattedCourse = course.toUpperCase();
   const formattedYear = capitalizeWords(year);
@@ -86,6 +146,12 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
                          Offline
                        </a>
                     </Button>
+                    {(role === 'admin' || role === 'lecturer') && (
+                        <Button variant="destructive" size="sm" onClick={() => setMaterialToDelete(material)}>
+                           <Trash2 className="mr-2 h-4 w-4" />
+                           Delete
+                        </Button>
+                    )}
                   </div>
                 </div>
               ))}
@@ -100,6 +166,22 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
       {(role === 'admin' || role === 'lecturer') && (
          <FileUploadDialog open={isUploadDialogOpen} onOpenChange={setUploadDialogOpen} />
       )}
+       <AlertDialog open={!!materialToDelete} onOpenChange={(open) => !open && setMaterialToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the file <span className="font-semibold">{materialToDelete?.title}</span>.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setMaterialToDelete(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteMaterial} className="bg-destructive hover:bg-destructive/90">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
