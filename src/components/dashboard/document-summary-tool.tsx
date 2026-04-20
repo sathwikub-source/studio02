@@ -14,8 +14,8 @@ import { summarizeDocument } from "@/ai/flows/ai-document-summary"
 import { useToast } from "@/hooks/use-toast"
 
 const formSchema = z.object({
-  documentContent: z.string().min(100, {
-    message: "Document content must be at least 100 characters.",
+  documentContent: z.string().min(1, {
+    message: "Document content cannot be empty.",
   }),
 })
 
