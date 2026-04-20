@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, GraduationCap, Bell, LayoutDashboard } from "lucide-react";
+import { BookOpen, GraduationCap, Bell, LayoutDashboard, FileText } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -22,8 +22,9 @@ import type { User } from "@/lib/types";
 const navItems = [
   { href: "/student/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
   { href: "/student/courses", icon: <GraduationCap />, label: "My Courses" },
-  { href: "#", icon: <BookOpen />, label: "Grades" },
-  { href: "#", icon: <Bell />, label: "Notifications" },
+  { href: "/student/assignments", icon: <FileText />, label: "Assignments" },
+  { href: "/student/grades", icon: <BookOpen />, label: "Grades" },
+  { href: "/student/notifications", icon: <Bell />, label: "Notifications" },
 ];
 
 const CURRENT_USER_STORAGE_KEY = 'study-spot-current-user';

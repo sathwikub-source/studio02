@@ -1,5 +1,7 @@
+'use client';
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import {
   Card,
@@ -17,6 +19,9 @@ interface CourseCardProps {
 }
 
 export function CourseCard({ course }: CourseCardProps) {
+  const pathname = usePathname();
+  const role = pathname.split('/')[1];
+
   return (
     <Card className="flex h-full flex-col">
       <CardHeader className="p-0">
@@ -24,8 +29,8 @@ export function CourseCard({ course }: CourseCardProps) {
           <Image
             src={course.coverImage.url}
             alt={course.title}
-            layout="fill"
-            objectFit="cover"
+            fill
+            style={{objectFit: "cover"}}
             className="rounded-t-lg"
             data-ai-hint={course.coverImage.hint}
           />
@@ -44,7 +49,7 @@ export function CourseCard({ course }: CourseCardProps) {
       </CardContent>
       <CardFooter>
         <Button asChild className="w-full">
-          <Link href="#">View Course</Link>
+          <Link href={`/${role}/courses`}>View Course</Link>
         </Button>
       </CardFooter>
     </Card>

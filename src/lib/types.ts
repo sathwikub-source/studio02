@@ -24,7 +24,9 @@ export interface Assignment {
   id: string;
   title: string;
   courseId: string;
+  courseName: string;
   dueDate: Date;
+  fileUrl: string;
 }
 
 export interface Submission {
@@ -44,4 +46,20 @@ export interface CourseMaterial {
   type: 'pdf' | 'ppt' | 'video';
   url: string;
   uploadedAt: Date;
+}
+
+export interface Grade {
+  id: string;
+  courseName: string;
+  assessment: string;
+  score: string;
+  date: Date;
+}
+
+export interface Notification {
+    id: string;
+    author: string;
+    title: string;
+    content: string;
+    date: Date;
 }

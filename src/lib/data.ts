@@ -1,4 +1,4 @@
-import type { User, Course, UserRole, CourseMaterial } from "./types";
+import type { User, Course, UserRole, CourseMaterial, Assignment, Grade, Notification } from "./types";
 import { PlaceHolderImages } from "./placeholder-images";
 
 const getPlaceholder = (id: string) => {
@@ -57,4 +57,22 @@ export const materials: CourseMaterial[] = [
     { id: 'mat-1', course: 'BCA', year: '1st Year', semester: '1st Semester', title: 'Introduction to C Programming.pdf', type: 'pdf', url: '#', uploadedAt: new Date('2024-05-10') },
     { id: 'mat-2', course: 'BCA', year: '1st Year', semester: '1st Semester', title: 'Digital Logic Fundamentals.ppt', type: 'ppt', url: '#', uploadedAt: new Date('2024-05-12') },
     { id: 'mat-3', course: 'BBA', year: '2nd Year', semester: '3rd Semester', title: 'Marketing Management Introduction.video', type: 'video', url: '#', uploadedAt: new Date('2024-05-15') },
+];
+
+export const assignments: Assignment[] = [
+    { id: 'assign-1', title: 'Physics Problem Set 1', courseId: 'course-1', courseName: 'Introduction to Physics', dueDate: new Date('2024-09-15'), fileUrl: '#' },
+    { id: 'assign-2', title: 'Essay on Modernism', courseId: 'course-2', courseName: 'History of Modern Art', dueDate: new Date('2024-09-20'), fileUrl: '#' },
+    { id: 'assign-3', title: 'Build a React Component Library', courseId: 'course-3', courseName: 'Advanced Web Development', dueDate: new Date('2024-10-01'), fileUrl: '#' },
+];
+
+export const grades: Grade[] = [
+    { id: 'grade-1', courseName: 'Introduction to Physics', assessment: 'Midterm Exam', score: '88%', date: new Date('2024-10-20') },
+    { id: 'grade-2', courseName: 'History of Modern Art', assessment: 'Final Essay', score: 'A-', date: new Date('2024-12-05') },
+    { id: 'grade-3', courseName: 'Introduction to Physics', assessment: 'Lab Report 1', score: '92%', date: new Date('2024-09-30') },
+];
+
+export const notifications: Notification[] = [
+    { id: 'notif-1', author: 'Dr. Carol Davis', title: 'Midterm Exam Schedule', content: 'The midterm exam for Introduction to Physics will be held on Oct 20th.', date: new Date('2024-10-05') },
+    { id: 'notif-2', author: 'Platform Admin', title: 'Scheduled Maintenance', content: 'The StudySpot platform will be down for scheduled maintenance this Sunday from 2 AM to 4 AM.', date: new Date('2024-10-10') },
+    { id: 'notif-3', author: 'Dr. Frank White', title: 'Guest Lecture Announcement', content: 'There will be a guest lecture for History of Modern Art next week. Attendance is highly encouraged.', date: new Date('2024-11-01') },
 ];
