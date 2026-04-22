@@ -92,7 +92,7 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
         id: `mat-${Date.now()}`,
         title: details.file.name,
         type: getFileType(details.file.name),
-        url: '#', // In a real app, this would be a URL to the uploaded file
+        url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
         uploadedAt: new Date(),
         course: formattedCourse,
         year: formattedYear,

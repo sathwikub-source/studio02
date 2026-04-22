@@ -81,7 +81,7 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
       year: details.year || "N/A",
       semester: details.semester || "N/A",
       dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Due in 7 days
-      fileUrl: '#', // In a real app, this would be a URL to the uploaded file
+      fileUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
     };
     updateAssignmentsInStateAndStorage([newAssignment, ...assignments]);
   };

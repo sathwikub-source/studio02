@@ -54,15 +54,15 @@ export const courses: Course[] = [
 ];
 
 export const materials: CourseMaterial[] = [
-    { id: 'mat-1', course: 'BCA', year: '1st Year', semester: '1st Semester', title: 'Introduction to C Programming.pdf', type: 'pdf', url: '#', uploadedAt: new Date('2024-05-10') },
-    { id: 'mat-2', course: 'BCA', year: '1st Year', semester: '1st Semester', title: 'Digital Logic Fundamentals.ppt', type: 'ppt', url: '#', uploadedAt: new Date('2024-05-12') },
-    { id: 'mat-3', course: 'BBA', year: '2nd Year', semester: '3rd Semester', title: 'Marketing Management Introduction.video', type: 'video', url: '#', uploadedAt: new Date('2024-05-15') },
+    { id: 'mat-1', course: 'BCA', year: '1st Year', semester: '1st Semester', title: 'Introduction to C Programming.pdf', type: 'pdf', url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', uploadedAt: new Date('2024-05-10') },
+    { id: 'mat-2', course: 'BCA', year: '1st Year', semester: '1st Semester', title: 'Digital Logic Fundamentals.ppt', type: 'ppt', url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', uploadedAt: new Date('2024-05-12') },
+    { id: 'mat-3', course: 'BBA', year: '2nd Year', semester: '3rd Semester', title: 'Marketing Management Introduction.mp4', type: 'video', url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', uploadedAt: new Date('2024-05-15') },
 ];
 
 export const assignments: Assignment[] = [
-    { id: 'assign-1', title: 'C Programming Basics', courseId: 'course-bca', courseName: 'BCA', year: '1st Year', semester: '1st Semester', dueDate: new Date('2024-09-15'), fileUrl: '#' },
-    { id: 'assign-2', title: 'Business Communication Essay', courseId: 'course-bba', courseName: 'BBA', year: '1st Year', semester: '2nd Semester', dueDate: new Date('2024-09-20'), fileUrl: '#' },
-    { id: 'assign-3', title: 'Calculus I Problems', courseId: 'course-bsc', courseName: 'BSc', year: '2nd Year', semester: '3rd Semester', dueDate: new Date('2024-10-01'), fileUrl: '#' },
+    { id: 'assign-1', title: 'C Programming Basics.pdf', courseId: 'course-bca', courseName: 'BCA', year: '1st Year', semester: '1st Semester', dueDate: new Date('2024-09-15'), fileUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+    { id: 'assign-2', title: 'Business Communication Essay.pdf', courseId: 'course-bba', courseName: 'BBA', year: '1st Year', semester: '2nd Semester', dueDate: new Date('2024-09-20'), fileUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
+    { id: 'assign-3', title: 'Calculus I Problems.pdf', courseId: 'course-bsc', courseName: 'BSc', year: '2nd Year', semester: '3rd Semester', dueDate: new Date('2024-10-01'), fileUrl: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf' },
 ];
 
 export const grades: Grade[] = [
