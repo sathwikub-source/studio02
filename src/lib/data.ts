@@ -1,4 +1,4 @@
-import type { User, Course, UserRole, CourseMaterial, Assignment, Grade, Notification } from "./types";
+import type { User, Course, UserRole, CourseMaterial, Assignment, Grade, Notification, DashboardNotification } from "./types";
 import { PlaceHolderImages } from "./placeholder-images";
 
 const getPlaceholder = (id: string) => {
@@ -75,4 +75,39 @@ export const notifications: Notification[] = [
     { id: 'notif-1', author: 'Dr. Carol Davis', title: 'Midterm Exam Schedule', content: 'The midterm exam for Introduction to Physics will be held on Oct 20th.', date: new Date('2024-10-05') },
     { id: 'notif-2', author: 'Platform Admin', title: 'Scheduled Maintenance', content: 'The StudySpot platform will be down for scheduled maintenance this Sunday from 2 AM to 4 AM.', date: new Date('2024-10-10') },
     { id: 'notif-3', author: 'Dr. Frank White', title: 'Guest Lecture Announcement', content: 'There will be a guest lecture for History of Modern Art next week. Attendance is highly encouraged.', date: new Date('2024-11-01') },
+];
+
+export const dashboardNotifications: DashboardNotification[] = [
+    { 
+        id: 'd-notif-1', 
+        type: 'assignment', 
+        title: 'New assignment: C Programming Basics', 
+        description: 'Due on Sep 15, 2024',
+        date: new Date('2024-09-01'),
+        link: '/student/assignments' 
+    },
+    { 
+        id: 'd-notif-2', 
+        type: 'material', 
+        title: 'New material for BCA',
+        description: 'Introduction to C Programming.pdf has been uploaded.',
+        date: new Date('2024-05-10'),
+        link: '/student/courses/bca/1st-year/1st-semester'
+    },
+    { 
+        id: 'd-notif-3', 
+        type: 'exam', 
+        title: 'Midterm Exam Grade Posted', 
+        description: 'Your grade for the Physics Midterm is available.',
+        date: new Date('2024-10-20'),
+        link: '/student/grades'
+    },
+    {
+        id: 'd-notif-4',
+        type: 'announcement',
+        title: 'Scheduled Maintenance',
+        description: 'The platform will be down for maintenance this Sunday.',
+        date: new Date('2024-10-10'),
+        link: '/student/announcements'
+    }
 ];

@@ -65,3 +65,12 @@ export interface Notification {
     content: string;
     date: Date;
 }
+
+export interface DashboardNotification {
+    id: string;
+    type: 'assignment' | 'material' | 'exam' | 'announcement';
+    title: string;
+    description: string;
+    date: Date;
+    link: string;
+}

@@ -1,43 +1,59 @@
-import { courses, users } from "@/lib/data";
-import { CourseCard } from "@/components/dashboard/course-card";
+import Link from 'next/link';
+import { dashboardNotifications } from "@/lib/data";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { List, ListItem } from "@/components/ui/list";
-import { format } from "date-fns";
+import { formatDistanceToNow } from 'date-fns';
+import { FileText, FolderDown, BookOpen, Megaphone } from 'lucide-react';
+import type { DashboardNotification } from '@/lib/types';
 
-const upcomingAssignments = [
-  { id: 1, title: "Physics Problem Set 1", course: "Introduction to Physics", dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) },
-  { id: 2, title: "Art History Essay", course: "History of Modern Art", dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) },
-];
+const notificationIcons: { [key in DashboardNotification['type']]: React.ReactNode } = {
+  assignment: <FileText className="h-5 w-5 text-primary" />,
+  material: <FolderDown className="h-5 w-5 text-success" />,
+  exam: <BookOpen className="h-5 w-5 text-destructive" />,
+  announcement: <Megaphone className="h-5 w-5 text-accent" />,
+};
+
 
 export default function StudentDashboardPage() {
+  const sortedNotifications = dashboardNotifications.sort((a, b) => b.date.getTime() - a.date.getTime());
+
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight">Upcoming Deadlines</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Dashboard</h2>
         <p className="text-muted-foreground">
-          Stay on top of your assignments.
+          Your recent notifications and updates.
         </p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Assignments</CardTitle>
-          <CardDescription>Don&apos;t miss these due dates!</CardDescription>
+          <CardTitle>Notifications</CardTitle>
+          <CardDescription>Here are your latest updates.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-             {upcomingAssignments.map((assignment) => (
-              <div key={assignment.id} className="flex items-center justify-between rounded-md border p-4">
-                <div>
-                  <p className="font-semibold">{assignment.title}</p>
-                  <p className="text-sm text-muted-foreground">{assignment.course}</p>
+             {sortedNotifications.length > 0 ? (
+                sortedNotifications.map((notification) => (
+                    <Link href={notification.link} key={notification.id} className="block rounded-lg p-3 transition-colors hover:bg-muted/50 -m-3">
+                        <div className="flex items-start gap-4">
+                            <div className="flex-shrink-0 pt-0.5">
+                                {notificationIcons[notification.type]}
+                            </div>
+                            <div className="flex-1">
+                                <p className="font-semibold">{notification.title}</p>
+                                <p className="text-sm text-muted-foreground">{notification.description}</p>
+                                <p className="text-xs text-muted-foreground mt-1">
+                                    {formatDistanceToNow(notification.date, { addSuffix: true })}
+                                </p>
+                            </div>
+                        </div>
+                    </Link>
+                ))
+             ) : (
+                <div className="text-center py-10 text-muted-foreground">
+                    You have no new notifications.
                 </div>
-                <div className="text-right">
-                  <p className="font-semibold">{format(assignment.dueDate, "MMM dd")}</p>
-                  <p className="text-sm text-muted-foreground">{format(assignment.dueDate, "yyyy")}</p>
-                </div>
-              </div>
-            ))}
+             )}
           </div>
         </CardContent>
       </Card>
