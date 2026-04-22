@@ -167,7 +167,7 @@ export function SemesterMaterials({ role, course, year, semester }: SemesterMate
                     <Button variant="outline" size="sm" asChild>
                        <a href={material.url} download={material.title}>
                          <Download className="mr-2 h-4 w-4" />
-                         Offline
+                         Offline Access
                        </a>
                     </Button>
                     {(role === 'admin' || role === 'lecturer') && (

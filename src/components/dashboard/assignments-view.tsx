@@ -183,7 +183,7 @@ export function AssignmentsView({ role }: AssignmentsViewProps) {
                                             <Button variant="outline" size="sm" asChild>
                                               <a href={assignment.fileUrl} download={assignment.title}>
                                                 <Download className="mr-2 h-4 w-4" />
-                                                Download
+                                                Offline Access
                                               </a>
                                             </Button>
                                             {canManage && (
