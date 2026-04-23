@@ -111,3 +111,30 @@ export const dashboardNotifications: DashboardNotification[] = [
         link: '/student/announcements'
     }
 ];
+
+export const lecturerDashboardNotifications: DashboardNotification[] = [
+    {
+        id: 'l-notif-1',
+        type: 'assignment',
+        title: 'Submission from Alice Johnson',
+        description: 'Assignment "C Programming Basics" was submitted.',
+        date: new Date('2024-09-14'),
+        link: '/lecturer/assignments'
+    },
+    {
+        id: 'l-notif-2',
+        type: 'announcement',
+        title: 'You posted an announcement',
+        description: '"Midterm Exam Schedule" was published.',
+        date: new Date('2024-10-05'),
+        link: '/lecturer/announcements'
+    },
+    {
+        id: 'l-notif-3',
+        type: 'material',
+        title: 'You uploaded a new material',
+        description: 'File "Digital Logic Fundamentals.ppt" is now available for students.',
+        date: new Date('2024-05-12'),
+        link: '/lecturer/courses/bca/1st-year/1st-semester'
+    }
+];
