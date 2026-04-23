@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
-import { initialGrades, initialUsers, courses } from '@/lib/data';
+import { grades as initialGrades, initialUsers, courses } from '@/lib/data';
 import type { Grade, User } from '@/lib/types';
 import { GradeFormDialog } from './grade-form-dialog';
 import { Skeleton } from '../ui/skeleton';
