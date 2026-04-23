@@ -50,6 +50,14 @@ export const courses: Course[] = [
         lecturer: { id: "user-6", name: "Dr. Frank White" },
         enrolledStudents: 15,
         coverImage: getPlaceholder("course-4"),
+    },
+    {
+        id: "course-5",
+        title: "Ancient Civilizations",
+        description: "A journey through the history of the world's great ancient empires.",
+        lecturer: { id: "user-6", name: "Dr. Frank White" },
+        enrolledStudents: 25,
+        coverImage: getPlaceholder("course-5"),
     }
 ];
 
