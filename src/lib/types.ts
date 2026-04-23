@@ -52,6 +52,8 @@ export interface CourseMaterial {
 
 export interface Grade {
   id: string;
+  studentId: string;
+  studentName: string;
   courseName: string;
   assessment: string;
   score: string;

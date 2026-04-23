@@ -66,9 +66,10 @@ export const assignments: Assignment[] = [
 ];
 
 export const grades: Grade[] = [
-    { id: 'grade-1', courseName: 'Introduction to Physics', assessment: 'Midterm Exam', score: '88%', date: new Date('2024-10-20') },
-    { id: 'grade-2', courseName: 'History of Modern Art', assessment: 'Final Essay', score: 'A-', date: new Date('2024-12-05') },
-    { id: 'grade-3', courseName: 'Introduction to Physics', assessment: 'Lab Report 1', score: '92%', date: new Date('2024-09-30') },
+    { id: 'grade-1', studentId: 'user-1', studentName: 'Alice Johnson', courseName: 'Introduction to Physics', assessment: 'Midterm Exam', score: '88%', date: new Date('2024-10-20') },
+    { id: 'grade-2', studentId: 'user-2', studentName: 'Bob Williams', courseName: 'History of Modern Art', assessment: 'Final Essay', score: 'A-', date: new Date('2024-12-05') },
+    { id: 'grade-3', studentId: 'user-1', studentName: 'Alice Johnson', courseName: 'Introduction to Physics', assessment: 'Lab Report 1', score: '92%', date: new Date('2024-09-30') },
+    { id: 'grade-4', studentId: 'user-5', studentName: 'Emily Brown', courseName: 'Advanced Web Development', assessment: 'Project 1', score: 'B+', date: new Date('2024-11-15') },
 ];
 
 export const notifications: Notification[] = [

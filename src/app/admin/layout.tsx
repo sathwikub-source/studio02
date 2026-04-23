@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { Users, GraduationCap, BarChart3, LayoutDashboard, Settings, FileText, Megaphone } from "lucide-react";
+import { Users, GraduationCap, BarChart3, LayoutDashboard, Settings, FileText, Megaphone, Award } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -23,6 +23,7 @@ const navItems = [
   { href: "/admin/dashboard", icon: <LayoutDashboard />, label: "Dashboard" },
   { href: "/admin/courses", icon: <GraduationCap />, label: "Manage Courses" },
   { href: "/admin/assignments", icon: <FileText />, label: "Assignments" },
+  { href: "/admin/grades", icon: <Award />, label: "Manage Grades" },
   { href: "/admin/announcements", icon: <Megaphone />, label: "Announcements" },
   { href: "/admin/activity", icon: <BarChart3 />, label: "Platform Activity" },
   { href: "/admin/settings", icon: <Settings />, label: "Settings" },
