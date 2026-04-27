@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hero-1",
-      "description": "A student thinking about their success.",
-      "imageUrl": "https://picsum.photos/seed/success/600/400",
-      "imageHint": "student success"
+      "description": "A stack of books on a table.",
+      "imageUrl": "https://picsum.photos/seed/books/600/400",
+      "imageHint": "books study"
     },
     {
       "id": "course-1",
