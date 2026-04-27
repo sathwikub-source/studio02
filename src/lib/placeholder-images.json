@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hero-1",
-      "description": "Students collaborating in a modern library setting.",
-      "imageUrl": "https://picsum.photos/seed/hero1/600/400",
-      "imageHint": "students library"
+      "description": "A vibrant and modern study environment.",
+      "imageUrl": "https://picsum.photos/seed/studyspot/600/400",
+      "imageHint": "study environment"
     },
     {
       "id": "course-1",
