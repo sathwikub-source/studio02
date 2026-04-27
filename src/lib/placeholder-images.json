@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hero-1",
-      "description": "A stack of books on a table.",
-      "imageUrl": "https://picsum.photos/seed/books/600/400",
-      "imageHint": "books study"
+      "description": "An open book on a wooden desk.",
+      "imageUrl": "https://picsum.photos/seed/openbook/600/400",
+      "imageHint": "book desk"
     },
     {
       "id": "course-1",
