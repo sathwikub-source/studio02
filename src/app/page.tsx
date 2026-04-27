@@ -1,11 +1,10 @@
-import Image from 'next/image';
+
 import Link from 'next/link';
 import { ArrowRight, BookOpen, GraduationCap, Users } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { SiteHeader } from '@/components/marketing/site-header';
 import { SiteFooter } from '@/components/marketing/site-footer';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const features = [
@@ -27,25 +26,23 @@ const features = [
 ];
 
 export default function Home() {
-  const heroImage = PlaceHolderImages.find(p => p.id === "hero-1");
-
   return (
     <div className="flex min-h-screen flex-col">
       <SiteHeader />
       <main className="flex-1">
-        <section className="bg-background">
+        <section className="bg-background py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-16">
-              <div className="flex flex-col justify-center space-y-4">
+            <div className="grid gap-6 lg:grid-cols-1 lg:gap-12 xl:gap-16">
+              <div className="flex flex-col justify-center space-y-4 text-center">
                 <div className="space-y-2">
                   <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none font-headline">
                     Welcome to <span className="text-primary">StudySpot</span>
                   </h1>
-                  <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                  <p className="max-w-[600px] mx-auto text-muted-foreground md:text-xl">
                     Your Smart Learning Hub. Empowering students and educators with a modern, collaborative learning environment.
                   </p>
                 </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                <div className="flex flex-col gap-2 min-[400px]:flex-row justify-center">
                   <Button asChild size="lg">
                     <Link href="/register">
                       Get Started Free
@@ -58,18 +55,6 @@ export default function Home() {
                     </Link>
                   </Button>
                 </div>
-              </div>
-              <div className="flex items-center justify-center">
-                 {heroImage && (
-                    <Image
-                      alt="Hero"
-                      className="aspect-video overflow-hidden rounded-xl object-cover"
-                      data-ai-hint={heroImage.imageHint}
-                      height="400"
-                      src={heroImage.imageUrl}
-                      width="600"
-                    />
-                  )}
               </div>
             </div>
           </div>
